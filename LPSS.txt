@@ -1,0 +1,42 @@
+class Solution 
+{ public:
+  int p[1000][1000];
+  int checkpalindrome(string s)
+    { int i,l;
+      int n=s.length();
+      l=0;
+      for(i=0;i<n/2;i++)
+      { if(s[i]==s[n-i-1])
+        { l++;}}
+      if(l==n/2)
+      { return 1;}
+      else
+      { return 0;}}
+    int longestPalindrome(string s,int z,int x)
+    { int n=s.length();
+      if(z==x)
+      { return 1;}
+      if(p[z][x]>0)
+      { return p[z][x];}
+      int i,j,r,q;
+      for(i=x-1;i>=z;i--)
+      { q=0;
+        for(j=i;j<x;j++)
+        { cout<<"\n"<<i<<" "<<j;
+          if(s[i]==s[j])
+          { q=q+longestPalindrome(s,i,j);
+            if(i!=j)
+            { q++;}
+            if(r<q)
+            { if(checkpalindrome(s.substr(i,j-i+1)))
+              {r=q;}}}
+          if(i>1 && j>1)
+          { p[i][j]=max(r,p[i][j-1]);
+            p[i][j]=max(p[i][j],p[i-1][j]);}
+          else
+          { p[i][j]=r;}
+          cout<<" "<<p[i][j];}}
+      return p[z][x-1];}
+    int longestPalindromeSubseq(string s)
+    { int q=longestPalindrome(s,0,s.length());
+      return q;}};
