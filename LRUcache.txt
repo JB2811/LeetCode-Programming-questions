@@ -1,0 +1,68 @@
+struct node
+{ int key,val;
+  node* next;};
+
+class LRUCache 
+{ public:
+  
+  int capacity;
+  node *head,*pnew,*temp,*pre;
+ 
+  LRUCache(int capacity) 
+  { this->capacity=capacity;
+    head=new node();
+    head->key=0;
+    head->val=0;
+    head->next=NULL;}
+
+  int get(int key) 
+  {  temp=head->next;
+     pre=head;
+     while(temp!=NULL)
+     { if(temp->key==key)
+       { pre->next=temp->next;
+         temp->next=head->next;
+         head->next=temp;
+         return temp->val;}
+       pre=temp;
+       temp=temp->next;}
+     return -1;}
+  
+  void put(int key, int value)
+  {  pnew=new node();
+     temp=head;
+     pre=head;
+     
+     while(temp->next!=NULL)
+     { if(temp->key==key)
+       { temp->val=value;
+         pre->next=temp->next;
+         temp->next=head->next;
+         head->next=temp;
+         return;}
+       pre=temp;
+       temp=temp->next;}
+     
+     if(temp->next==NULL)
+     { if(head->val<capacity)
+       { pnew->key=key;
+         pnew->val=value;
+         pnew->next=head->next;
+         head->next=pnew;
+         head->val++;}
+       else
+       { pnew->key=key;
+         pnew->val=value;
+         if(capacity>1)
+         { pnew->next=head->next;}
+         else
+         { pnew->next=NULL;}
+         pre->next=NULL;
+         head->next=pnew;}}}};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
