@@ -1,0 +1,57 @@
+#include<vector>
+class Solution 
+{ public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& mat) 
+    {  int n=mat.size();
+       int m=mat[0].size();
+       int i,j,c=0;
+       vector<vector<int>> b;
+       for(i=0;i<=9999;i++)
+       { vector<int> k;
+         k.assign(9999,0);
+         b.push_back(k);}
+       vector<int> a;
+       i=0; j=0;
+       while(c<(n*m))
+       { a.push_back(mat[i][j]);
+         b[i][j]=1;
+         if(i!=0 && j==0)
+         { if(i<(n-1) && b[i-1][j+1]==1)
+           { i++;}
+           else if(i==(n-1) && b[i-1][j+1]==1)
+           { j++;} 
+	       else
+           { if(j<(m-1))
+             { i--;
+               j++;}
+             else
+             { i++;}}}
+         else if(i==0 && j!=0)
+         { if(j<(m-1) && b[i+1][j-1]==1)
+           { j++;}
+           else if(j==(m-1) && b[i+1][j-1]==1)
+           { i++;}
+           else
+           { if(i<n-1)
+             { i++;
+               j--;}
+             else
+             { j++;}}}
+	     else if(j!=0 && i!=0)
+         { if(b[i-1][j+1]!=1 && (j+1)<m && (i-1)>=0)
+           { j++;
+             i--;}
+           else if(i==(n-1) && b[i-1][j+1]==1)
+           { j++;}
+           else if(j==(m-1) && b[i+1][j-1]==1)
+           { i++;}
+           else 
+           { i++;
+             j--;}}
+ 	     else
+         { if(j<(m-1))
+           {j++;}
+           else if(i<(n-1))
+           { i++;}}
+ 	   c++;}
+    return a;}};
